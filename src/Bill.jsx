@@ -12,13 +12,31 @@ const Bill = ({
     const [making, setMaking] = useState(0)
     useEffect(() => {
       if(data.length > 0){
-        
         if(data[0] === '916'){
-            setMaking(0.15)
+            if(data[1]==='Chain' || data[1]==='chain'){
+              setMaking(0.09)
+            }
+            else if(parseFloat(data[2])<3.00){
+              setMaking(0.18)
+            }
+            else{
+              setMaking(0.15)
+            }
             setRate((parseFloat(pureRate)*0.0917).toFixed(2))
         }
         else if(data[0] === '750'){
+          if(data[1]==='Chain' || data[1]==='chain'){
+            setMaking(0.10)
+          }
+          else if(parseFloat(data[2])<3.00){
+            setMaking(0.20)
+          }
+          else if(parseFloat(data[2])<5.00 && parseFloat(data[2])>=3.00){
             setMaking(0.18)
+          }
+          else{
+            setMaking(0.15)
+          }
             setRate((parseFloat(pureRate)*0.0775).toFixed(2))
         }
         setPurity(data[0])
