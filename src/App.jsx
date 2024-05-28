@@ -79,7 +79,9 @@ function App() {
             </div>
             {showQR && (
               <>
-                <Webcam/>
+                <Webcam
+                videoConstraints={"environment"}
+                />
                 <QrReader
                 onResult={(result, error) => {
                   if (!!result) {
@@ -95,6 +97,7 @@ function App() {
                 }}
                 style={{ width: '100%' }}
                 ViewFinder={function noRefCheck(){}}
+                constraints={{facingMode:'environment'}}
               />
               </>
             )}
