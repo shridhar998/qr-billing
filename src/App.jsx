@@ -43,6 +43,11 @@ function App() {
     }
     window.location.reload()
   }
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    facingMode: "user"
+ }
 
   return (
     <div className='flex flex-col items-center min-h-screen bg-gradient-to-b from-white to-amber-400'>
@@ -80,7 +85,7 @@ function App() {
             {showQR && (
               <>
                 <Webcam
-                videoConstraints={"environment"}
+                videoConstraints={videoConstraints}
                 />
                 <QrReader
                 onResult={(result, error) => {
