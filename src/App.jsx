@@ -56,8 +56,9 @@ function App() {
           <img src='/assets/logo_english_hd.PNG' alt='Logo' />
         </div>
       </div>
-      <div className='fixed right-0 md:right-6 top-4 font-semibold text-sm md:text-base'>
-        Pure Gold 999 rate : &#8377; {pureRate}
+      <div className='fixed flex flex-col gap-3 right-0 md:right-6 top-4 font-semibold text-sm md:text-base'>
+         Gold 916 rate : &#8377; {pureRate*0.917}
+         Gold 750 rate : &#8377; {pureRate*0.775}
       </div>
       {
         showModal && 
