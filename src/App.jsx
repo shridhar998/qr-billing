@@ -56,7 +56,7 @@ function App() {
           <img src='/assets/logo_english_hd.PNG' alt='Logo' />
         </div>
       </div>
-      <div className='fixed right-0 md:right-6 bottom-10 font-semibold text-sm md:text-base'>
+      <div className='fixed right-0 md:right-6 bottom-20 font-semibold text-sm md:text-base'>
         <div className='flex flex-col gap-3'>
           <div>Gold 916 rate : &#8377; {(pureRate*0.917).toFixed(2)}</div>
           <div>Gold 750 rate : &#8377; {(pureRate*0.775).toFixed(2)}</div>
