@@ -64,7 +64,7 @@ const Bill = ({
         <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{making*100}{"%"}</div>
         <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">&#8377;{(wt*rate*(1+making)).toFixed(2)}</div>
 
-        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} IGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
+        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} SGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
         <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">&#8377;{(wt*rate*(1+making)*0.03).toFixed(2)}</div>
       
         <div className="col-span-8 font-bold py-2 border border-black animate-column">Total amount : </div>
