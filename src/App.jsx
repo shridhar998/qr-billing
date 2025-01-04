@@ -64,7 +64,7 @@ function App() {
             Discounted 916 rate : &#8377;
             <span>{(pureRate*0.8985).toFixed(2)}</span>
           </div>
-          <div>Gold 750 rate : &#8377; {(pureRate*0.7707).toFixed(2)}</div>
+          <div>Gold 750 rate : &#8377; {(pureRate*0.755).toFixed(2)}</div>
         </div>
       </div>
       {
