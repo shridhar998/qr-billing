@@ -12,7 +12,7 @@ function App() {
   const [showQR, setShowQR] = useState(false);
   const [data, setData] = useState('No result');
   const [arr, setArr] = useState([]);
-  const [pureRate, setPureRate ] = useState(76000);
+  const [pureRate, setPureRate ] = useState(91096.272);
   const [password, setPassword] = useState('');
   const [payloadRate, setPayloadRate] = useState();
   const [showModal, setShowModal] = useState(false);
