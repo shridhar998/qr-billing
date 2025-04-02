@@ -5,7 +5,8 @@ import Bill from './Bill';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const API  = 'https://qr-billing-api-production.up.railway.app/api/v1/todayRate';
+//OLD API
+//const API  = 'https://qr-billing-api-production.up.railway.app/api/v1/todayRate';
 
 function App() {
   const [tab, setTab] = useState(0);
@@ -26,23 +27,34 @@ function App() {
   }, []);
 
   const fetchPureRate = async() => {
-    const res = await axios.get(API);
-    setPureRate(res.data.rate)
+    // const res = await axios.get(API);
+    // setPureRate(res.data.rate)
+    const url = 'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g';
+
+    const response = await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+        },
+    });
+
+    const result = await response.json();
+    console.log(result);
+    setPureRate(parseFloat(result.metals.mcx_gold)*10.587);
   }
 
-  const handleRateUpdate = async() => {
-    const payload = {
-      rate : payloadRate,
-      password : password
-    }
-    console.log(payload)
-    const res = await axios.put(API,payload)
-    if(res.data.error){
-      toast.error("Admin password was wrong")
-      return;
-    }
-    window.location.reload()
-  }
+  // const handleRateUpdate = async() => {
+  //   const payload = {
+  //     rate : payloadRate,
+  //     password : password
+  //   }
+  //   console.log(payload)
+  //   const res = await axios.put(API,payload)
+  //   if(res.data.error){
+  //     toast.error("Admin password was wrong")
+  //     return;
+  //   }
+  //   window.location.reload()
+  // }
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -146,9 +158,9 @@ function App() {
           </div>
         </>
       )}
-      <h1 onClick={()=>setShowModal(true)} className='cursor-pointer fixed bottom-8 rounded-md text-center text-amber-800 font-semibold shadow-md p-4'>
+{/*       <h1 onClick={()=>setShowModal(true)} className='cursor-pointer fixed bottom-8 rounded-md text-center text-amber-800 font-semibold shadow-md p-4'>
         Update Today's Rate {"(Only Admin access)"}
-      </h1>
+      </h1> */}
     </div>
   );
 }
