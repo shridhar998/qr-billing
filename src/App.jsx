@@ -55,7 +55,7 @@ function getPureLocalRate() {
     const result = await response.json();
     console.log(result);
     setPureRate(parseFloat(result.metals.mcx_gold)*10.587);
-    setPurelocalRate(parseFloat(result.metals.mcx_gold)*10.587);
+    setPureLocalRate(parseFloat(result.metals.mcx_gold)*10.587);
     setLoading(false);
     setOldRate("updated_today_dont_update");
   }
