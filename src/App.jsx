@@ -17,18 +17,20 @@ function App() {
   const [password, setPassword] = useState('');
   const [payloadRate, setPayloadRate] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const QRScanHandler = () => {
     setShowQR(true);
   };
 
-  useEffect(() => {
-    fetchPureRate()
-  }, []);
+  // useEffect(() => {
+  //   fetchPureRate()
+  // }, []);
 
   const fetchPureRate = async() => {
     // const res = await axios.get(API);
     // setPureRate(res.data.rate)
+    setLoading(true);
     const url = 'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g';
 
     const response = await fetch(url, {
@@ -40,6 +42,7 @@ function App() {
     const result = await response.json();
     console.log(result);
     setPureRate(parseFloat(result.metals.mcx_gold)*10.587);
+    setLoading(false);
   }
 
   // const handleRateUpdate = async() => {
@@ -126,6 +129,9 @@ function App() {
               />
               </>
             )}
+            <h1 onClick={()=>fetchPureRate()} className='cursor-pointer fixed bottom-8 rounded-md text-center text-amber-800 font-semibold shadow-md p-4'>
+              Fetch Today's Rate {"(10rs per request)"}
+            </h1>
           </div>
         </>
       ) : (
@@ -158,9 +164,6 @@ function App() {
           </div>
         </>
       )}
-{/*       <h1 onClick={()=>setShowModal(true)} className='cursor-pointer fixed bottom-8 rounded-md text-center text-amber-800 font-semibold shadow-md p-4'>
-        Update Today's Rate {"(Only Admin access)"}
-      </h1> */}
     </div>
   );
 }
