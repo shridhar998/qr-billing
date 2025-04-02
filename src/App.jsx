@@ -18,14 +18,27 @@ function App() {
   const [payloadRate, setPayloadRate] = useState();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [oldRate,setOldRate] = useState("rate_not_updated");
 
   const QRScanHandler = () => {
     setShowQR(true);
   };
 
-  // useEffect(() => {
-  //   fetchPureRate()
-  // }, []);
+  useEffect(() => {
+    const localRate = getPureLocalRate();
+    if(localRate){
+      setPureRate(parseFloat(localRate));
+      setOldRate("updated_already_dont_update");
+    }
+  }, []);
+function setPureLocalRate(pureRate) {
+    localStorage.setItem("pureLocalRate", JSON.stringify({ pureLocalRate: pureRate }));
+}
+
+function getPureLocalRate() {
+    const data = localStorage.getItem("pureLocalRate");
+    return data ? JSON.parse(data).pureLocalRate : null;
+}
 
   const fetchPureRate = async() => {
     // const res = await axios.get(API);
@@ -42,7 +55,9 @@ function App() {
     const result = await response.json();
     console.log(result);
     setPureRate(parseFloat(result.metals.mcx_gold)*10.587);
+    setPurelocalRate(parseFloat(result.metals.mcx_gold)*10.587);
     setLoading(false);
+    setOldRate("updated_today_dont_update");
   }
 
   // const handleRateUpdate = async() => {
@@ -58,6 +73,7 @@ function App() {
   //   }
   //   window.location.reload()
   // }
+  
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -130,7 +146,7 @@ function App() {
               </>
             )}
             <h1 onClick={()=>fetchPureRate()} className='cursor-pointer fixed bottom-8 rounded-md text-center text-amber-800 font-semibold shadow-md p-4'>
-              Fetch Today's Rate {"(10rs per request)"}
+              Fetch Today's Rate <span>{oldRate}</span> 
             </h1>
           </div>
         </>
