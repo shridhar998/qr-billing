@@ -24,41 +24,41 @@ function App() {
     setShowQR(true);
   };
 
-  useEffect(() => {
-    const localRate = getPureLocalRate();
-    if(localRate){
-      setPureRate(parseFloat(localRate));
-      setOldRate("updated_already_dont_update");
-    }
-  }, []);
-function setPureLocalRate(pureRate) {
-    localStorage.setItem("pureLocalRate", JSON.stringify({ pureLocalRate: pureRate }));
-}
+  // useEffect(() => {
+  //   const localRate = getPureLocalRate();
+  //   if(localRate){
+  //     setPureRate(parseFloat(localRate));
+  //     setOldRate("updated_already_dont_update");
+  //   }
+  // }, []);
+// function setPureLocalRate(pureRate) {
+//     localStorage.setItem("pureLocalRate", JSON.stringify({ pureLocalRate: pureRate }));
+// }
 
-function getPureLocalRate() {
-    const data = localStorage.getItem("pureLocalRate");
-    return data ? JSON.parse(data).pureLocalRate : null;
-}
+// function getPureLocalRate() {
+//     const data = localStorage.getItem("pureLocalRate");
+//     return data ? JSON.parse(data).pureLocalRate : null;
+// }
 
-  const fetchPureRate = async() => {
-    // const res = await axios.get(API);
-    // setPureRate(res.data.rate)
-    setLoading(true);
-    const url = 'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g';
+  // const fetchPureRate = async() => {
+  //   // const res = await axios.get(API);
+  //   // setPureRate(res.data.rate)
+  //   setLoading(true);
+  //   const url = 'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g';
 
-    const response = await fetch(url, {
-        headers: {
-            'Accept': 'application/json',
-        },
-    });
+  //   const response = await fetch(url, {
+  //       headers: {
+  //           'Accept': 'application/json',
+  //       },
+  //   });
 
-    const result = await response.json();
-    console.log(result);
-    setPureRate(parseFloat(result.metals.mcx_gold)*10.587);
-    setPureLocalRate(parseFloat(result.metals.mcx_gold)*10.587);
-    setLoading(false);
-    setOldRate("updated_today_dont_update");
-  }
+  //   const result = await response.json();
+  //   console.log(result);
+  //   setPureRate(parseFloat(result.metals.mcx_gold)*10.587);
+  //   setPureLocalRate(parseFloat(result.metals.mcx_gold)*10.587);
+  //   setLoading(false);
+  //   setOldRate("updated_today_dont_update");
+  // }
 
   // const handleRateUpdate = async() => {
   //   const payload = {
