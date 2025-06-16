@@ -37,7 +37,7 @@ function App() {
     }
 
     localStorage.setItem('pureRate', payloadRate);
-    setPureRate(Number(payloadRate)*1.02);
+    setPureRate(Number(payloadRate));
     setShowModal(false);
     toast.success("Rate updated successfully");
   };
