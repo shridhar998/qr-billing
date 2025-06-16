@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   const handleRateUpdate = () => {
-    if (password !== 'your_admin_password') {
+    if (password !== 'sdg453') {
       toast.error("Admin password was wrong");
       return;
     }
