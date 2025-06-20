@@ -59,7 +59,7 @@ function App() {
       <div className='fixed right-0 md:right-6 bottom-20 font-semibold text-sm md:text-base'>
         <div className='flex flex-col gap-3'>
           <div>Gold 916 rate : &#8377; {(pureRate * 0.9167).toFixed(2)}</div>
-          <div>Gold 750 rate : &#8377; {(pureRate * 0.7707).toFixed(2)}</div>
+          <div>Gold 750 rate : &#8377; {(pureRate * 0.77).toFixed(2)}</div>
         </div>
       </div>
 
