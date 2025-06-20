@@ -22,7 +22,7 @@ const Bill = ({
             else{
               setMaking(0.15)
             }
-            setRate((parseFloat(pureRate)*0.08985).toFixed(2))
+            setRate((parseFloat(pureRate)*0.9167).toFixed(2))
         }
         else if(data[0] === '750'){
           if(parseFloat(data[2])<2.00){
@@ -36,7 +36,7 @@ const Bill = ({
           else{
             setMaking(0.15)
           }
-            setRate((parseFloat(pureRate)*0.0755).toFixed(2))
+            setRate((parseFloat(pureRate)*0.77).toFixed(2))
         }
         setPurity(data[0])
         setName(data[1].toString().toUpperCase())
