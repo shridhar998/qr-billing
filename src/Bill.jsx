@@ -13,11 +13,23 @@ const Bill = ({
     useEffect(() => {
       if(data.length > 0){
         if(data[0] === '916'){
-            if(parseFloat(data[2])>=15.0 && (data[1]==='Chain' || data[1]==='chain')){
+            if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain')){
+              setMaking(0.085)
+            }
+            else if(parseFloat(data[2])>=15.0 && (data[1]==='Chain' || data[1]==='chain')){
               setMaking(0.09)
+            }
+            else if(parseFloat(data[2])>=20.0 && (data[1]==='Churi' || data[1]==='churi')){
+              setMaking(0.09)
+            }
+            else if(parseFloat(data[2])>=20.0 && (data[1]==='har' || data[1]==='Har')){
+              setMaking(0.10)
             }
             else if(parseFloat(data[2])<3.00){
               setMaking(0.18)
+            }
+            else if(parseFloat(data[2])>=18.00){
+                setMaking(0.12)
             }
             else{
               setMaking(0.15)
@@ -32,6 +44,9 @@ const Bill = ({
           }
           else if(parseFloat(data[2])<5.00 && parseFloat(data[2])>=3.50){
             setMaking(0.18)
+          }
+          else if(parseFloat(data[2])>=15.0 && (data[1]==='Chain' || data[1]==='chain')){
+            setMaking(0.12)
           }
           else{
             setMaking(0.15)
