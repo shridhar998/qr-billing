@@ -20,10 +20,10 @@ const Bill = ({
               setMaking(0.09)
             }
             else if(parseFloat(data[2])>=20.0 && (data[1]==='Churi' || data[1]==='churi')){
-              setMaking(0.09)
+              setMaking(0.12)
             }
-            else if(parseFloat(data[2])>=20.0 && (data[1]==='har' || data[1]==='Har')){
-              setMaking(0.10)
+            else if(parseFloat(data[2])>=20.0){
+              setMaking(0.095)
             }
             else if(parseFloat(data[2])<3.00){
               setMaking(0.18)
