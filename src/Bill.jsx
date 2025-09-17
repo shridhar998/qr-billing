@@ -13,26 +13,28 @@ const Bill = ({
     useEffect(() => {
       if(data.length > 0){
         if(data[0] === '916'){
-            if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain')){
-              setMaking(0.085)
+            if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain' || data[1]==='CHAIN')){
+              setMaking(0.13)
             }
-            else if(parseFloat(data[2])>=15.0 && (data[1]==='Chain' || data[1]==='chain')){
-              setMaking(0.09)
-            }
-            else if(parseFloat(data[2])>=20.0 && (data[1]==='Churi' || data[1]==='churi')){
+            else if(parseFloat(data[2])>=40.0 && (data[1]==='Churi' || data[1]==='churi'|| data[1]==='CHURI')){
               setMaking(0.12)
             }
-            else if(parseFloat(data[2])>=20.0){
-              setMaking(0.095)
+            else if(parseFloat(data[2])>=30.0 && (
+                data[1]==='HAR' || data[1]==='HARSET'|| data[1]==='LSET' || data[1]==='HARST' || data[1]==='CHOKER'|| data[1]==='LONGSET'
+            )){
+                 setMaking(0.13)
             }
-            else if(parseFloat(data[2])<3.00){
-              setMaking(0.18)
+            else if(parseFloat(data[2])>=30.0){
+              setMaking(0.12)
             }
-            else if(parseFloat(data[2])>=18.00){
-                setMaking(0.12)
+            else if(parseFloat(data[2])<3.00 && data[2]>1.50){
+              setMaking(0.20)
+            }
+            else if(parseFloat(data[2])<=1.50){
+              setMaking(0.25)
             }
             else{
-              setMaking(0.15)
+              setMaking(0.18)
             }
             setRate((parseFloat(pureRate)*0.9167).toFixed(2))
         }
@@ -45,11 +47,11 @@ const Bill = ({
           else if(parseFloat(data[2])<5.00 && parseFloat(data[2])>=3.50){
             setMaking(0.18)
           }
-          else if(parseFloat(data[2])>=15.0 && (data[1]==='Chain' || data[1]==='chain')){
-            setMaking(0.12)
+          else if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain'|| data[1]==='CHAIN')){
+            setMaking(0.15)
           }
           else{
-            setMaking(0.15)
+            setMaking(0.20)
           }
             setRate((parseFloat(pureRate)*0.77).toFixed(2))
         }
