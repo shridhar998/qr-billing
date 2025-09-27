@@ -10,6 +10,7 @@ const Bill = ({
     const [rate, setRate] = useState(0)
     const [bamt, setbamt] = useState(0)
     const [making, setMaking] = useState(0)
+    const [perPc, setPerPc] = useState(false)
     useEffect(() => {
       if(data.length > 0){
         if(data[0] === '916'){
@@ -20,7 +21,7 @@ const Bill = ({
               setMaking(0.12)
             }
             else if(parseFloat(data[2])>=30.0 && (
-                data[1]==='HAR' || data[1]==='HARSET'|| data[1]==='LSET' || data[1]==='HARST' || data[1]==='CHOKER'|| data[1]==='LONGSET'
+                data[1]==='Har' || data[1]==='HAR' || data[1]==='HARSET'|| data[1]==='LSET' || data[1]==='HARST' || data[1]==='CHOKER'|| data[1]==='Choker' || data[1]==='LONGSET'
             )){
                  setMaking(0.13)
             }
@@ -30,16 +31,29 @@ const Bill = ({
             else if(parseFloat(data[2])<3.00 && data[2]>1.50){
               setMaking(0.20)
             }
-            else if(parseFloat(data[2])<=1.50){
-              setMaking(0.25)
-            }
             else{
               setMaking(0.18)
             }
             setRate((parseFloat(pureRate)*0.9167).toFixed(2))
         }
         else if(data[0] === '750'){
-          if(parseFloat(data[2])<2.00){
+             if(parseFloat(data[2])<=0.500){
+              setPerPc(true)  
+              setMaking(1500)
+            }
+            else if(parseFloat(data[2])<=0.800){
+              setPerPc(true)  
+              setMaking(2000)
+            }
+            else if(parseFloat(data[2])<=1.00){
+              setPerPc(true)  
+              setMaking(2500)
+            }
+            else if(parseFloat(data[2])<=1.50){
+              setPerPc(true)  
+              setMaking(3000)
+            }
+          else if(parseFloat(data[2])<2.00){
             setMaking(0.25)
           }else if(parseFloat(data[2])<3.5 && parseFloat(data[2])>=2.00){
             setMaking(0.20)
@@ -77,14 +91,23 @@ const Bill = ({
         <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{name}</div>
         <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{wt}{"gm"}</div>
         <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{rate}</div>
-        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{making*100}{"%"}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">&#8377;{(wt*rate*(1+making)).toFixed(2)}</div>
+        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">
+          {!perPc ? making * 100 + "%" : making + " per pc"}
+        </div>
+
+        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">
+            &#8377; {!perPc ? (wt*rate*(1+making)).toFixed(2) : (wt*rate + making).toFixed(2)}
+        </div>
 
         <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} SGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
-        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">&#8377;{(wt*rate*(1+making)*0.03).toFixed(2)}</div>
+        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
+            &#8377;{!perPc ? (wt*rate*(1+making)*0.03).toFixed(2) : ( (wt*rate + making) * 0.03).toFixed(2)}
+        </div>
       
         <div className="col-span-8 font-bold py-2 border border-black animate-column">Total amount : </div>
-        <div className="col-span-2 font-bold py-2 border border-black animate-column">&#8377;{(wt*rate*(1+making)*1.03).toFixed(2)}</div>
+        <div className="col-span-2 font-bold py-2 border border-black animate-column">
+            &#8377;{!perPc ? (wt*rate*(1+making)*1.03).toFixed(2) : ( (wt*rate + making) * 1.03).toFixed(2)}
+        </div>
     </div>
   )
 }
