@@ -11,8 +11,14 @@ const Bill = ({
     const [bamt, setbamt] = useState(0)
     const [making, setMaking] = useState(0)
     const [perPc, setPerPc] = useState(false)
+    const [isStone, setIsStone] = useState(false)
+    const [stonePrice, setStonePrice] = useState(0)
     useEffect(() => {
       if(data.length > 0){
+          if(data.length > 3){
+              setIsStone(true)
+              setStonePrice(Number(data[3]))
+          }
         if(data[0] === '916'){
             if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain' || data[1]==='CHAIN')){
               setMaking(0.13)
@@ -77,7 +83,51 @@ const Bill = ({
 
     
   return (
-    <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
+   <>
+       {
+           isStone?
+        <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
+      
+        <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Purity</div>
+        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Item Name</div>
+        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Weight</div>
+        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Rate</div>
+        <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Making charges</div>
+        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Billing Amount</div>
+      
+      
+        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{purity}</div>
+        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{name}</div>
+        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{wt}{"gm"}</div>
+        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{rate}</div>
+        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">
+          {!perPc ? making * 100 + "%" : making + " per pc"}
+        </div>
+
+        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">
+            &#8377; {!perPc ? (wt*rate*(1+making)).toFixed(2) : (wt*rate + making).toFixed(2)}
+        </div>
+
+            
+        <div className="col-span-3 font-bold py-2 border border-black animate-column">Stone Details</div>
+        <div className="col-span-2 font-bold py-2 border border-black animate-column">{(stonePrice/1500).toFixed(2)}{"ct"}</div> 
+        <div className="col-span-3 p-3 font-bold py-2 border border-black animate-column">
+            &#8377; {"1500"}
+        </div>
+
+        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} SGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
+        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
+            &#8377;{!perPc ? (wt*rate*(1+making)*0.03).toFixed(2) : ( (wt*rate + making) * 0.03).toFixed(2)}
+        </div>
+
+            
+        <div className="col-span-8 font-bold py-2 border border-black animate-column">Total amount : </div>
+        <div className="col-span-2 font-bold py-2 border border-black animate-column">
+            &#8377;{!perPc ? (wt*rate*(1+making)*1.03).toFixed(2) : ( (wt*rate + making) * 1.03).toFixed(2)}
+        </div>
+    </div>
+           :
+        <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
       
         <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Purity</div>
         <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Item Name</div>
@@ -108,7 +158,9 @@ const Bill = ({
         <div className="col-span-2 font-bold py-2 border border-black animate-column">
             &#8377;{!perPc ? (wt*rate*(1+making)*1.03).toFixed(2) : ( (wt*rate + making) * 1.03).toFixed(2)}
         </div>
-    </div>
+        </div>
+       }
+   </>
   )
 }
 
