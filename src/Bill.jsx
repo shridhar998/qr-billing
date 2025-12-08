@@ -93,7 +93,7 @@ const Bill = ({
         <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Weight</div>
         <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Rate</div>
         <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Making charges</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Billing Amount</div>
+        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Gold Amount</div>
       
       
         <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{purity}</div>
@@ -114,16 +114,23 @@ const Bill = ({
         <div className="col-span-3 p-3 font-bold py-2 border border-black animate-column">
             &#8377; {"1500"}
         </div>
+        <div className="col-span-2 font-bold py-2 border border-black animate-column">{(stonePrice).toFixed(2)}</div> 
+
+            
+        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span> {"Gold+Stone"} : </span></div>
+        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
+            &#8377;{!perPc ? (wt*rate*(1+making) + stonePrice).toFixed(2) : (wt*rate + making + stonePrice).toFixed(2)}
+        </div>
 
         <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} SGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
         <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? (wt*rate*(1+making)*0.03).toFixed(2) : ( (wt*rate + making) * 0.03).toFixed(2)}
+            &#8377;{!perPc ? ((wt*rate*(1+making) + stonePrice)*0.03).toFixed(2) : ( (wt*rate + making + stonePrice)*0.03).toFixed(2)}
         </div>
 
             
         <div className="col-span-8 font-bold py-2 border border-black animate-column">Total amount : </div>
         <div className="col-span-2 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? (wt*rate*(1+making)*1.03).toFixed(2) : ( (wt*rate + making) * 1.03).toFixed(2)}
+            &#8377;{!perPc ? ((wt*rate*(1+making) + stonePrice)*1.03).toFixed(2) : ( (wt*rate + making + stonePrice) * 1.03).toFixed(2)}
         </div>
     </div>
            :
@@ -134,7 +141,7 @@ const Bill = ({
         <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Weight</div>
         <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Rate</div>
         <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Making charges</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Billing Amount</div>
+        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Gold Amount</div>
       
       
         <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{purity}</div>
