@@ -36,9 +36,9 @@ function App() {
       const result = await response.json();
       console.log("Fetched rate:", result);
 
-      if (result?.status === "success" && result?.rates?.mcx_gold) {
-        setPureRate(Number(result.rates.mcx_gold)*1.03);
-        localStorage.setItem('pureRate', Number(result.rates.mcx_gold)*1.03);
+      if (result?.status === "success" && result?.metals?.mcx_gold) {
+        setPureRate(Number(result.metals.mcx_gold)*1.03);
+        localStorage.setItem('pureRate', Number(result.metals.mcx_gold)*1.03);
         toast.success("Today's MCX gold rate updated");
       } else {
         toast.error("Failed to fetch MCX gold rate");
