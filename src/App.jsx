@@ -26,8 +26,7 @@ function App() {
   const fetchMetalRates = async () => {
     try {
       const url =
-        'https://api.metals.dev/v1/metal/authority?api_key=QLOZSXK4X0ITJJC6AM5H818C6AM5H&authority=mcx&currency=INR&unit=g';
-
+        'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g'
       const response = await fetch(url, {
         headers: {
           'Accept': 'application/json',
