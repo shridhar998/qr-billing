@@ -25,8 +25,8 @@ function App() {
   // 🔑 Fetch MCX API
   const fetchMetalRates = async () => {
     try {
-      const url =
-        'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g'
+     // const url = 'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g' // ye wala use ho gya
+      const url = 'https://api.metals.dev/v1/latest?api_key=QLOZSXK4X0ITJJC6AM5H818C6AM5H&currency=INR&unit=g'// ye 26/01/26 ko
       const response = await fetch(url, {
         headers: {
           'Accept': 'application/json',
