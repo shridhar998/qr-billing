@@ -16,4 +16,16 @@
   .animate-column {
     animation: columnAnimation 3.5s ease forwards;
   }
-  
+  @media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area, .print-area * {
+    visibility: visible;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

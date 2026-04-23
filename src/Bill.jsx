@@ -1,174 +1,285 @@
-import React, {useEffect, useState} from 'react'
+// import React from 'react';
 
-const Bill = ({
-    data = ['916','tika','3.41'],
-    pureRate ,
-}) => {
-    const [purity, setPurity] = useState('')
-    const [name, setName] = useState('')
-    const [wt, setWt] = useState(0)
-    const [rate, setRate] = useState(0)
-    const [bamt, setbamt] = useState(0)
-    const [making, setMaking] = useState(0)
-    const [perPc, setPerPc] = useState(false)
-    const [isStone, setIsStone] = useState(false)
-    const [stonePrice, setStonePrice] = useState(0)
-    useEffect(() => {
-      if(data.length > 0){
-          if(data.length > 3){
-              setIsStone(true)
-              setStonePrice(Number(data[3]))
-          }
-        if(data[0] === '916'){
-            if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain' || data[1]==='CHAIN')){
-              setMaking(0.13)
-            }
-            else if(parseFloat(data[2])>=40.0 && (data[1]==='Churi' || data[1]==='churi'|| data[1]==='CHURI')){
-              setMaking(0.12)
-            }
-            else if(parseFloat(data[2])>=30.0 && (
-                data[1]==='Har' || data[1]==='HAR' || data[1]==='HARSET'|| data[1]==='LSET' || data[1]==='HARST' || data[1]==='CHOKER'|| data[1]==='Choker' || data[1]==='LONGSET'
-            )){
-                 setMaking(0.13)
-            }
-            else if(parseFloat(data[2])>=30.0){
-              setMaking(0.12)
-            }
-            else if(parseFloat(data[2])<3.00 && data[2]>1.50){
-              setMaking(0.20)
-            }
-            else{
-              setMaking(0.18)
-            }
-            setRate((parseFloat(pureRate)*0.9167).toFixed(2))
-        }
-        else if(data[0] === '750'){
-             if(parseFloat(data[2])<=0.500){
-              setPerPc(true)  
-              setMaking(1500)
-            }
-            else if(parseFloat(data[2])<=0.800){
-              setPerPc(true)  
-              setMaking(2000)
-            }
-            else if(parseFloat(data[2])<=1.00){
-              setPerPc(true)  
-              setMaking(2500)
-            }
-            else if(parseFloat(data[2])<=1.50){
-              setPerPc(true)  
-              setMaking(3000)
-            }
-          else if(parseFloat(data[2])<2.00){
-            setMaking(0.25)
-          }else if(parseFloat(data[2])<3.5 && parseFloat(data[2])>=2.00){
-            setMaking(0.20)
-          }
-          else if(parseFloat(data[2])<5.00 && parseFloat(data[2])>=3.50){
-            setMaking(0.18)
-          }
-          else if(parseFloat(data[2])>=20.0 && (data[1]==='Chain' || data[1]==='chain'|| data[1]==='CHAIN')){
-            setMaking(0.15)
-          }
-          else{
-            setMaking(0.20)
-          }
-            setRate((parseFloat(pureRate)*0.755).toFixed(2))
-        }
-        setPurity(data[0])
-        setName(data[1].toString().toUpperCase())
-        setWt(parseFloat(data[2]).toFixed(3))
-      }
-    }, [data])
+// const calculateItem = (item, pureRate) => {
+//   let rate = 0, making = 0, perPc = false;
+//    let makingAmt = 0;
 
-    
-  return (
-   <>
-       {
-           isStone?
-        <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
-      
-        <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Purity</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Item Name</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Weight</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Rate</div>
-        <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Making charges</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Gold Amount</div>
-      
-      
-        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{purity}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{name}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{wt}{"gm"}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{rate}</div>
-        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">
-          {!perPc ? making * 100 + "%" : making + " per pc"}
-        </div>
+//   if (item.purity === '916') {
+//     rate = pureRate * 0.9167;
+//     making = 0.069;
+//   }
 
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">
-            &#8377; {!perPc ? (wt*rate*(1+making)).toFixed(2) : (wt*rate + making).toFixed(2)}
-        </div>
+//   if (item.purity === '750') {
+//     rate = pureRate * 0.755;
+//     if (item.weight <= 1) {
+//       making = 2500;
+//       perPc = true;
+//     } 
+//     else if(item.weight <= 15){
+//       making = 0.109
+//     }
+//     else {
+//       making = 0.089;
+//     }
+//   }
+ 
+//   makingAmt = perPc
+//     ? making
+//     : item.weight * rate *  making;
+//   const goldAmount = perPc
+//     ? item.weight * rate + making
+//     : item.weight * rate * (1 + making);
 
-            
-        <div className="col-span-3 font-bold py-2 border border-black animate-column">Stone Details</div>
-        <div className="col-span-2 font-bold py-2 border border-black animate-column">{(stonePrice/1500).toFixed(2)}{"ct"}</div> 
-        <div className="col-span-3 p-3 font-bold py-2 border border-black animate-column">
-            &#8377; {"1500"}
-        </div>
-        <div className="col-span-2 font-bold py-2 border border-black animate-column">{(stonePrice).toFixed(2)}</div> 
+//   const subtotal = goldAmount + item.stonePrice;
+//   const gst = subtotal * 0.03;
+//   const total = subtotal + gst;
 
-            
-        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span> {"Gold+Stone"} : </span></div>
-        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? (wt*rate*(1+making) + stonePrice).toFixed(2) : (wt*rate + making + stonePrice).toFixed(2)}
-        </div>
+//   return { ...item, rate, goldAmount, gst, total };
+// };
 
-        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} SGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
-        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? ((wt*rate*(1+making) + stonePrice)*0.03).toFixed(2) : ( (wt*rate + making + stonePrice)*0.03).toFixed(2)}
-        </div>
+// const Bill = ({ data, pureRate, removeItem }) => {
+//   const items = data.map(i => calculateItem(i, pureRate));
+//   const grandTotal = items.reduce((s, i) => s + i.total, 0);
 
-            
-        <div className="col-span-8 font-bold py-2 border border-black animate-column">Total amount : </div>
-        <div className="col-span-2 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? ((wt*rate*(1+making) + stonePrice)*1.03).toFixed(2) : ( (wt*rate + making + stonePrice) * 1.03).toFixed(2)}
-        </div>
-    </div>
-           :
-        <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
-      
-        <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Purity</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Item Name</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Weight</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Rate</div>
-        <div className="col-span-1 font-normal md:font-bold border border-black py-2 animate-column">Making charges</div>
-        <div className="col-span-2 font-normal md:font-bold border border-black py-2 animate-column">Gold Amount</div>
-      
-      
-        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">{purity}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{name}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{wt}{"gm"}</div>
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">{rate}</div>
-        <div className="col-span-1 p-3 font-normal md:font-bold border border-black animate-column">
-          {!perPc ? making * 100 + "%" : making + " per pc"}
-        </div>
+//   return (
+//     <div className="print-area p-4 mt-6">
 
-        <div className="col-span-2 p-3 font-normal md:font-bold border border-black animate-column">
-            &#8377; {!perPc ? (wt*rate*(1+making)).toFixed(2) : (wt*rate + making).toFixed(2)}
-        </div>
+//       <h2 className="text-center font-bold text-xl mb-4">
+//         ESTIMATE (NOT A TAX INVOICE)
+//       </h2>
 
-        <div className="col-span-8 font-bold py-2 border border-black animate-column"><span>GST {"3%"} SGST+CGST{"(1.5% + 1.5%)"}</span><span className='font-normal ml-10'>GST Amount :</span></div>
-        <div className="col-span-2 p-3 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? (wt*rate*(1+making)*0.03).toFixed(2) : ( (wt*rate + making) * 0.03).toFixed(2)}
-        </div>
-      
-        <div className="col-span-8 font-bold py-2 border border-black animate-column">Total amount : </div>
-        <div className="col-span-2 font-bold py-2 border border-black animate-column">
-            &#8377;{!perPc ? (wt*rate*(1+making)*1.03).toFixed(2) : ( (wt*rate + making) * 1.03).toFixed(2)}
-        </div>
-        </div>
-       }
-   </>
-  )
+//       <table className="w-full border border-black text-sm">
+//         <thead>
+//           <tr className="border">
+//             <th>Item</th>
+//             <th>Wt(g)</th>
+//             <th>Rate</th>
+//             <th>Making</th>
+//             <th>Amount</th>
+//             <th>{"GST(to be added)"}</th>
+//             <th>Total</th>
+//             <th className="no-print"></th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {items.map(i => (
+//             <tr key={i.id} className="border text-center">
+//               <td>{i.purity}{i.name}</td>
+//               <td>{i.weight}</td>
+//               <td>₹{i.rate.toFixed(2)}</td>
+//               <td>{makingAmt}</td>
+//               <td>₹{i.goldAmount.toFixed(2)}</td>
+//               <td>₹{i.gst.toFixed(2)}</td>
+//               <td>₹{i.total.toFixed(2)}</td>
+//               <td className="no-print">
+//                 <button onClick={() => removeItem(i.id)}>❌</button>
+//               </td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+
+//       <div className="text-right font-bold text-lg mt-4">
+//         Grand Total: ₹ {grandTotal.toFixed(2)}
+//       </div>
+
+//     </div>
+//   );
+// };
+
+// export default Bill;
+import React from 'react';
+
+/**
+ * calculateBill(data, pureRate)
+ *
+ * Pure function — no React state. Returns all computed values for one item.
+ * Exported so BillList can aggregate totals without mounting <Bill>.
+ *
+ * data: [purity, name, weight, stonePrice?]
+ *   e.g. ['916', 'Tika', '3.41'] or ['750', 'Chain', '5.00', '1500']
+ */
+export function calculateBill(data, pureRate) {
+  if (!data || data.length < 3) {
+    return {
+      purity: '',
+      name: '',
+      wt: 0,
+      rate: 0,
+      making: 0,
+      perPc: false,
+      isStone: false,
+      stonePrice: 0,
+      goldAmount: 0,
+      gstAmount: 0,
+      totalAmount: 0,
+    };
+  }
+
+  const purity = data[0];
+  const name = data[1].toString().toUpperCase();
+  const wt = parseFloat(data[2]);
+  const isStone = data.length > 3;
+  const stonePrice = isStone ? Number(data[3]) : 0;
+
+  let rate = 0;
+  let making = 0;
+  let perPc = false;
+
+  if (purity === '916') {
+    rate = parseFloat(pureRate) * 0.9167;
+
+    if (wt >= 20.0 && ['CHAIN'].includes(name)) {
+      making = 0.13;
+    } else if (wt >= 40.0 && ['CHURI'].includes(name)) {
+      making = 0.12;
+    } else if (
+      wt >= 30.0 &&
+      ['HAR', 'HARSET', 'LSET', 'HARST', 'CHOKER', 'LONGSET'].includes(name)
+    ) {
+      making = 0.13;
+    } else if (wt >= 30.0) {
+      making = 0.12;
+    } else if (wt > 1.5 && wt < 3.0) {   // ← bug fix: was comparing string
+      making = 0.20;
+    } else {
+      making = 0.18;
+    }
+  } else if (purity === '750') {
+    rate = parseFloat(pureRate) * 0.755;
+
+    if (wt <= 0.5) {
+      perPc = true;
+      making = 1500;
+    } else if (wt <= 0.8) {
+      perPc = true;
+      making = 2000;
+    } else if (wt <= 1.0) {
+      perPc = true;
+      making = 2500;
+    } else if (wt <= 1.5) {
+      perPc = true;
+      making = 3000;
+    } else if (wt < 2.0) {
+      making = 0.25;
+    } else if (wt < 3.5) {
+      making = 0.20;
+    } else if (wt < 5.0) {
+      making = 0.18;
+    } else if (wt >= 20.0 && ['CHAIN'].includes(name)) {
+      making = 0.15;
+    } else {
+      making = 0.20;
+    }
+  }
+
+  // Gold amount (before stone, before GST)
+  const goldAmount = perPc
+    ? wt * rate + making
+    : wt * rate * (1 + making);
+
+  const base = goldAmount + stonePrice;
+  const gstAmount = base * 0.03;
+  const totalAmount = base * 1.03;
+
+  return {
+    purity,
+    name,
+    wt: wt.toFixed(3),
+    rate: rate.toFixed(2),
+    making,
+    perPc,
+    isStone,
+    stonePrice,
+    goldAmount,
+    gstAmount,
+    totalAmount,
+  };
 }
 
-export default Bill
+/* ─────────────────────────────────────────────────────────────
+   Bill Component
+   Renders a single item's price breakdown table.
+───────────────────────────────────────────────────────────── */
+const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
+  const {
+    purity,
+    name,
+    wt,
+    rate,
+    making,
+    perPc,
+    isStone,
+    stonePrice,
+    goldAmount,
+    gstAmount,
+    totalAmount,
+  } = calculateBill(data, pureRate);
+
+  const makingLabel = perPc ? `${making} per pc` : `${(making * 100).toFixed(0)}%`;
+
+  return (
+    <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
+
+      {/* ── Header Row ── */}
+      <Cell span={1} bold>Purity</Cell>
+      <Cell span={2} bold>Item Name</Cell>
+      <Cell span={2} bold>Weight</Cell>
+      <Cell span={2} bold>Rate</Cell>
+      <Cell span={1} bold>Making</Cell>
+      <Cell span={2} bold>Gold Amount</Cell>
+
+      {/* ── Data Row ── */}
+      <Cell span={1}>{purity}</Cell>
+      <Cell span={2}>{name}</Cell>
+      <Cell span={2}>{wt} gm</Cell>
+      <Cell span={2}>{rate}</Cell>
+      <Cell span={1}>{makingLabel}</Cell>
+      <Cell span={2}>&#8377; {goldAmount.toFixed(2)}</Cell>
+
+      {/* ── Stone Row (conditional) ── */}
+      {isStone && (
+        <>
+          <Cell span={3} bold>Stone Details</Cell>
+          <Cell span={2} bold>{(stonePrice / 1500).toFixed(2)} ct</Cell>
+          <Cell span={3} bold>&#8377; 1500 / ct</Cell>
+          <Cell span={2} bold>&#8377; {stonePrice.toFixed(2)}</Cell>
+
+          <Cell span={8} bold>Gold + Stone</Cell>
+          <Cell span={2} bold>&#8377; {(goldAmount + stonePrice).toFixed(2)}</Cell>
+        </>
+      )}
+
+      {/* ── GST Row ── */}
+      <Cell span={8} bold>
+        GST 3% &nbsp; SGST+CGST (1.5% + 1.5%)
+        <span className="font-normal ml-10">GST Amount :</span>
+      </Cell>
+      <Cell span={2} bold>&#8377; {gstAmount.toFixed(2)}</Cell>
+
+      {/* ── Total Row ── */}
+      <Cell span={8} bold>Total Amount</Cell>
+      <Cell span={2} bold>&#8377; {totalAmount.toFixed(2)}</Cell>
+    </div>
+  );
+};
+
+/* ─────────────────────────────────────────────────────────────
+   Cell helper — avoids repeating the same Tailwind classes 
+   for every grid cell.
+   
+   Props:
+     span  – col-span value (1–10)
+     bold  – applies font-bold
+───────────────────────────────────────────────────────────── */
+const Cell = ({ span = 1, bold = false, children }) => (
+  <div
+    className={`col-span-${span} p-2 border border-black ${
+      bold ? 'font-bold' : 'font-normal md:font-semibold'
+    } animate-column`}
+  >
+    {children}
+  </div>
+);
+
+export default Bill;
