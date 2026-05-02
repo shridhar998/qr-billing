@@ -251,14 +251,14 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
       )}
 
       {/* ── GST Row ── */}
-      <Cell span={8} bold>
+      <Cell span={3} bold>
         GST 3% &nbsp; SGST+CGST (1.5% + 1.5%)
         <span className="font-normal ml-10">GST Amount :</span>
       </Cell>
       <Cell span={2} bold>&#8377; {gstAmount.toFixed(2)}</Cell>
 
       {/* ── Total Row ── */}
-      <Cell span={8} bold>Total Amount</Cell>
+      <Cell span={3} bold>Total Amount</Cell>
       <Cell span={2} bold>&#8377; {totalAmount.toFixed(2)}</Cell>
     </div>
   );
