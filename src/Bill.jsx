@@ -238,17 +238,19 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
       <Cell span={2}>&#8377; {goldAmount.toFixed(2)}</Cell>
 
       {/* ── Stone Row (conditional) ── */}
-      {isStone && (
-        <>
-          <Cell span={3} bold>Stone Details</Cell>
-          <Cell span={2} bold>{(stonePrice / 1500).toFixed(2)} ct</Cell>
-          <Cell span={3} bold>&#8377; 1500 / ct</Cell>
-          <Cell span={2} bold>&#8377; {stonePrice.toFixed(2)}</Cell>
+    {/* 
+{isStone && (
+  <>
+    <Cell span={3} bold>Stone Details</Cell>
+    <Cell span={2} bold>{(stonePrice / 1500).toFixed(2)} ct</Cell>
+    <Cell span={3} bold>&#8377; 1500 / ct</Cell>
+    <Cell span={2} bold>&#8377; {stonePrice.toFixed(2)}</Cell>
 
-          <Cell span={8} bold>Gold + Stone</Cell>
-          <Cell span={2} bold>&#8377; {(goldAmount + stonePrice).toFixed(2)}</Cell>
-        </>
-      )}
+    <Cell span={8} bold>Gold + Stone</Cell>
+    <Cell span={2} bold>&#8377; {(goldAmount + stonePrice).toFixed(2)}</Cell>
+  </>
+)}
+*/}
 
       {/* ── GST Row ── */}
       <Cell span={8} bold>
