@@ -87,149 +87,116 @@
 //   );
 // };
 
-// export default Bill;
 import React from 'react';
 
-/**
- * calculateBill(data, pureRate)
- *
- * Pure function — no React state. Returns all computed values for one item.
- * Exported so BillList can aggregate totals without mounting <Bill>.
- *
- * data: [purity, name, weight, stonePrice?]
- *   e.g. ['916', 'Tika', '3.41'] or ['750', 'Chain', '5.00', '1500']
- */
+// ── Tailwind col-span lookup ─────────────────────────────────────────────────
+// NEVER use template literals like `col-span-${n}` — Tailwind's JIT won't
+// generate those classes unless the full string appears literally in source.
+const colSpanClass = {
+  1:  'col-span-1',
+  2:  'col-span-2',
+  3:  'col-span-3',
+  4:  'col-span-4',
+  5:  'col-span-5',
+  6:  'col-span-6',
+  7:  'col-span-7',
+  8:  'col-span-8',
+  9:  'col-span-9',
+  10: 'col-span-10',
+};
+
+const Cell = ({ span = 1, bold = false, children }) => (
+  <div
+    className={`${colSpanClass[span]} p-2 border border-black ${
+      bold ? 'font-bold' : 'font-normal md:font-semibold'
+    } animate-column`}
+  >
+    {children}
+  </div>
+);
+
+// ── Pure calculation helper (exported for BillList grand total) ──────────────
 export function calculateBill(data, pureRate) {
   if (!data || data.length < 3) {
     return {
-      purity: '',
-      name: '',
-      wt: 0,
-      rate: 0,
-      making: 0,
-      perPc: false,
-      isStone: false,
-      stonePrice: 0,
-      goldAmount: 0,
-      gstAmount: 0,
-      totalAmount: 0,
+      purity: '', name: '', wt: 0, rate: 0,
+      making: 0, perPc: false, isStone: false, stonePrice: 0,
+      goldAmount: 0, gstAmount: 0, totalAmount: 0,
     };
   }
 
-  const purity = data[0];
-  const name = data[1].toString().toUpperCase();
-  const wt = parseFloat(data[2]);
-  const isStone = data.length > 3;
+  const purity     = data[0];
+  const name       = data[1].toString().toUpperCase();
+  const wt         = parseFloat(data[2]);
+  const isStone    = data.length > 3;
   const stonePrice = isStone ? Number(data[3]) : 0;
 
-  let rate = 0;
+  let rate   = 0;
   let making = 0;
-  let perPc = false;
+  let perPc  = false;
 
   if (purity === '916') {
     rate = parseFloat(pureRate) * 0.9167;
 
-    if (wt >= 20.0 && ['CHAIN'].includes(name)) {
-      making = 0.13;
-    } else if (wt >= 40.0 && ['CHURI'].includes(name)) {
-      making = 0.12;
-    } else if (
-      wt >= 30.0 &&
-      ['HAR', 'HARSET', 'LSET', 'HARST', 'CHOKER', 'LONGSET'].includes(name)
-    ) {
-      making = 0.13;
-    } else if (wt >= 30.0) {
-      making = 0.12;
-    } else if (wt > 1.5 && wt < 3.0) {   // ← bug fix: was comparing string
-      making = 0.20;
-    } else {
-      making = 0.18;
-    }
+    if (wt >= 20.0 && ['CHAIN'].includes(name))                                          making = 0.13;
+    else if (wt >= 40.0 && ['CHURI'].includes(name))                                     making = 0.12;
+    else if (wt >= 30.0 && ['HAR','HARSET','LSET','HARST','CHOKER','LONGSET'].includes(name)) making = 0.13;
+    else if (wt >= 30.0)                                                                  making = 0.12;
+    else if (wt > 1.5 && wt < 3.0)                                                       making = 0.20;
+    else                                                                                  making = 0.18;
+
   } else if (purity === '750') {
     rate = parseFloat(pureRate) * 0.755;
 
-    if (wt <= 0.5) {
-      perPc = true;
-      making = 1500;
-    } else if (wt <= 0.8) {
-      perPc = true;
-      making = 2000;
-    } else if (wt <= 1.0) {
-      perPc = true;
-      making = 2500;
-    } else if (wt <= 1.5) {
-      perPc = true;
-      making = 3000;
-    } else if (wt < 2.0) {
-      making = 0.25;
-    } else if (wt < 3.5) {
-      making = 0.20;
-    } else if (wt < 5.0) {
-      making = 0.18;
-    } else if (wt >= 20.0 && ['CHAIN'].includes(name)) {
-      making = 0.15;
-    } else {
-      making = 0.20;
-    }
+    if      (wt <= 0.5)  { perPc = true; making = 1500; }
+    else if (wt <= 0.8)  { perPc = true; making = 2000; }
+    else if (wt <= 1.0)  { perPc = true; making = 2500; }
+    else if (wt <= 1.5)  { perPc = true; making = 3000; }
+    else if (wt < 2.0)   making = 0.25;
+    else if (wt < 3.5)   making = 0.20;
+    else if (wt < 5.0)   making = 0.18;
+    else if (wt >= 20.0 && ['CHAIN'].includes(name)) making = 0.15;
+    else                 making = 0.20;
   }
 
-  // Gold amount (before stone, before GST)
-  const goldAmount = perPc
-    ? wt * rate + making
-    : wt * rate * (1 + making);
-
-  const base = goldAmount + stonePrice;
-  const gstAmount = base * 0.03;
+  const goldAmount  = perPc ? wt * rate + making : wt * rate * (1 + making);
+  const base        = goldAmount + stonePrice;
+  const gstAmount   = base * 0.03;
   const totalAmount = base * 1.03;
 
   return {
-    purity,
-    name,
-    wt: wt.toFixed(3),
-    rate: rate.toFixed(2),
-    making,
-    perPc,
-    isStone,
-    stonePrice,
-    goldAmount,
-    gstAmount,
-    totalAmount,
+    purity, name,
+    wt:         wt.toFixed(3),
+    rate:       rate.toFixed(2),
+    making, perPc, isStone, stonePrice,
+    goldAmount, gstAmount, totalAmount,
   };
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Bill Component
-   Renders a single item's price breakdown table.
-───────────────────────────────────────────────────────────── */
+// ── Bill component ───────────────────────────────────────────────────────────
 const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
   const {
-    purity,
-    name,
-    wt,
-    rate,
-    making,
-    perPc,
-    isStone,
-    stonePrice,
-    goldAmount,
-    gstAmount,
-    totalAmount,
+    purity, name, wt, rate,
+    making, perPc, isStone, stonePrice,
+    goldAmount, gstAmount, totalAmount,
   } = calculateBill(data, pureRate);
 
-  const makingLabel = perPc ? `${making} per pc` : `${(making * 100).toFixed(0)}%`;
+  const makingLabel = perPc
+    ? `${making} per pc`
+    : `${(making * 100).toFixed(0)}%`;
 
   return (
     <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
 
-      {/* ── Header Row ── */}
-      <Cell span={1} bold>Purity</Cell>
-      <Cell span={2} bold>Item Name</Cell>
-      <Cell span={2} bold>Weight</Cell>
-      <Cell span={2} bold>Rate</Cell>
-      <Cell span={1} bold>Making</Cell>
-      <Cell span={2} bold>Gold Amount</Cell>
+      {/* Header */}
+      <Cell span={1}  bold>Purity</Cell>
+      <Cell span={2}  bold>Item Name</Cell>
+      <Cell span={2}  bold>Weight</Cell>
+      <Cell span={2}  bold>Rate</Cell>
+      <Cell span={1}  bold>Making</Cell>
+      <Cell span={2}  bold>Gold Amount</Cell>
 
-      {/* ── Data Row ── */}
+      {/* Data */}
       <Cell span={1}>{purity}</Cell>
       <Cell span={2}>{name}</Cell>
       <Cell span={2}>{wt} gm</Cell>
@@ -237,51 +204,33 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
       <Cell span={1}>{makingLabel}</Cell>
       <Cell span={2}>&#8377; {goldAmount.toFixed(2)}</Cell>
 
-      {/* ── Stone Row (conditional) ── */}
-    {/* 
-{isStone && (
-  <>
-    <Cell span={3} bold>Stone Details</Cell>
-    <Cell span={2} bold>{(stonePrice / 1500).toFixed(2)} ct</Cell>
-    <Cell span={3} bold>&#8377; 1500 / ct</Cell>
-    <Cell span={2} bold>&#8377; {stonePrice.toFixed(2)}</Cell>
+      {/* Stone rows */}
+      {isStone && (
+        <>
+          <Cell span={3} bold>Stone Details</Cell>
+          <Cell span={2} bold>{(stonePrice / 1500).toFixed(2)} ct</Cell>
+          <Cell span={3} bold>&#8377; 1500 / ct</Cell>
+          <Cell span={2} bold>&#8377; {stonePrice.toFixed(2)}</Cell>
 
-    <Cell span={8} bold>Gold + Stone</Cell>
-    <Cell span={2} bold>&#8377; {(goldAmount + stonePrice).toFixed(2)}</Cell>
-  </>
-)}
-*/}
+          <Cell span={8} bold>Gold + Stone</Cell>
+          <Cell span={2} bold>&#8377; {(goldAmount + stonePrice).toFixed(2)}</Cell>
+        </>
+      )}
 
-      {/* ── GST Row ── */}
+      {/* GST */}
       <Cell span={8} bold>
-        GST 3% &nbsp; SGST+CGST (1.5% + 1.5%)
-        {/* <span className="font-normal ml-10">GST Amount :</span> */}
+        GST 3% &nbsp; SGST + CGST (1.5% + 1.5%)
       </Cell>
       <Cell span={2} bold>&#8377; {gstAmount.toFixed(2)}</Cell>
 
-      {/* ── Total Row ── */}
+      {/* Total */}
       <Cell span={8} bold>Total Amount</Cell>
       <Cell span={2} bold>&#8377; {totalAmount.toFixed(2)}</Cell>
     </div>
   );
 };
 
-/* ─────────────────────────────────────────────────────────────
-   Cell helper — avoids repeating the same Tailwind classes 
-   for every grid cell.
-   
-   Props:
-     span  – col-span value (1–10)
-     bold  – applies font-bold
-───────────────────────────────────────────────────────────── */
-const Cell = ({ span = 1, bold = false, children }) => (
-  <div
-    className={`col-span-${span} p-2 border border-black ${
-      bold ? 'font-bold' : 'font-normal md:font-semibold'
-    } animate-column`}
-  >
-    {children}
-  </div>
-);
+export default Bill;
+
 
 export default Bill;
