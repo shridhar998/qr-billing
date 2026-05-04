@@ -89,25 +89,11 @@
 
 import React from 'react';
 
-// ── Tailwind col-span lookup ─────────────────────────────────────────────────
-// NEVER use template literals like `col-span-${n}` — Tailwind's JIT won't
-// generate those classes unless the full string appears literally in source.
-const colSpanClass = {
-  1:  'col-span-1',
-  2:  'col-span-2',
-  3:  'col-span-3',
-  4:  'col-span-4',
-  5:  'col-span-5',
-  6:  'col-span-6',
-  7:  'col-span-7',
-  8:  'col-span-8',
-  9:  'col-span-9',
-  10: 'col-span-10',
-};
-
+// ── Cell uses inline style for gridColumn — bypasses Tailwind JIT entirely ───
 const Cell = ({ span = 1, bold = false, children }) => (
   <div
-    className={`${colSpanClass[span]} p-2 border border-black ${
+    style={{ gridColumn: `span ${span} / span ${span}` }}
+    className={`p-2 border border-black text-center ${
       bold ? 'font-bold' : 'font-normal md:font-semibold'
     } animate-column`}
   >
@@ -138,12 +124,12 @@ export function calculateBill(data, pureRate) {
   if (purity === '916') {
     rate = parseFloat(pureRate) * 0.9167;
 
-    if (wt >= 20.0 && ['CHAIN'].includes(name))                                          making = 0.13;
-    else if (wt >= 40.0 && ['CHURI'].includes(name))                                     making = 0.12;
-    else if (wt >= 30.0 && ['HAR','HARSET','LSET','HARST','CHOKER','LONGSET'].includes(name)) making = 0.13;
-    else if (wt >= 30.0)                                                                  making = 0.12;
-    else if (wt > 1.5 && wt < 3.0)                                                       making = 0.20;
-    else                                                                                  making = 0.18;
+    if      (wt >= 20.0 && ['CHAIN'].includes(name))                                              making = 0.13;
+    else if (wt >= 40.0 && ['CHURI'].includes(name))                                              making = 0.12;
+    else if (wt >= 30.0 && ['HAR','HARSET','LSET','HARST','CHOKER','LONGSET'].includes(name))     making = 0.13;
+    else if (wt >= 30.0)                                                                           making = 0.12;
+    else if (wt > 1.5 && wt < 3.0)                                                                making = 0.20;
+    else                                                                                           making = 0.18;
 
   } else if (purity === '750') {
     rate = parseFloat(pureRate) * 0.755;
@@ -186,17 +172,19 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
     : `${(making * 100).toFixed(0)}%`;
 
   return (
-    <div className="md:text-base text-xs grid grid-cols-10 text-center my-5 p-1 border-2 rounded-md border-gray-800">
+    <div
+      className="md:text-base text-xs grid text-center my-5 p-1 border-2 rounded-md border-gray-800 w-full"
+      style={{ gridTemplateColumns: 'repeat(10, minmax(0, 1fr))' }}
+    >
+      {/* ── Header ── */}
+      <Cell span={1} bold>Purity</Cell>
+      <Cell span={2} bold>Item Name</Cell>
+      <Cell span={2} bold>Weight</Cell>
+      <Cell span={2} bold>Rate</Cell>
+      <Cell span={1} bold>Making</Cell>
+      <Cell span={2} bold>Gold Amount</Cell>
 
-      {/* Header */}
-      <Cell span={1}  bold>Purity</Cell>
-      <Cell span={2}  bold>Item Name</Cell>
-      <Cell span={2}  bold>Weight</Cell>
-      <Cell span={2}  bold>Rate</Cell>
-      <Cell span={1}  bold>Making</Cell>
-      <Cell span={2}  bold>Gold Amount</Cell>
-
-      {/* Data */}
+      {/* ── Data ── */}
       <Cell span={1}>{purity}</Cell>
       <Cell span={2}>{name}</Cell>
       <Cell span={2}>{wt} gm</Cell>
@@ -204,7 +192,7 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
       <Cell span={1}>{makingLabel}</Cell>
       <Cell span={2}>&#8377; {goldAmount.toFixed(2)}</Cell>
 
-      {/* Stone rows */}
+      {/* ── Stone rows (conditional) ── */}
       {isStone && (
         <>
           <Cell span={3} bold>Stone Details</Cell>
@@ -217,13 +205,13 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
         </>
       )}
 
-      {/* GST */}
+      {/* ── GST ── */}
       <Cell span={8} bold>
         GST 3% &nbsp; SGST + CGST (1.5% + 1.5%)
       </Cell>
       <Cell span={2} bold>&#8377; {gstAmount.toFixed(2)}</Cell>
 
-      {/* Total */}
+      {/* ── Total ── */}
       <Cell span={8} bold>Total Amount</Cell>
       <Cell span={2} bold>&#8377; {totalAmount.toFixed(2)}</Cell>
     </div>
@@ -232,5 +220,3 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
 
 export default Bill;
 
-
-export default Bill;
