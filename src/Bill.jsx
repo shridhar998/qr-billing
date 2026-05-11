@@ -169,7 +169,7 @@ const Bill = ({ data = ['916', 'Tika', '3.41'], pureRate }) => {
 
   const makingLabel = perPc
     ? `${making} per pc`
-    : `${(making * 100).toFixed(0)}%`;
+    : `${(making * 100).toFixed(2)}%`;
 
   return (
     <div
