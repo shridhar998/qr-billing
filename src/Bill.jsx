@@ -123,13 +123,13 @@ export function calculateBill(data, pureRate) {
 
   if (purity === '916') {
     rate = parseFloat(pureRate) * 0.9167;
-
-    if      (wt >= 20.0 && ['CHAIN'].includes(name))                                              making = 0.13;
-    else if (wt >= 40.0 && ['CHURI'].includes(name))                                              making = 0.12;
-    else if (wt >= 30.0 && ['HAR','HARSET','LSET','HARST','CHOKER','LONGSET'].includes(name))     making = 0.13;
-    else if (wt >= 30.0)                                                                           making = 0.12;
-    else if (wt > 1.5 && wt < 3.0)                                                                making = 0.20;
-    else                                                                                           making = 0.18;
+    making = 0.069;
+    // if      (wt >= 20.0 && ['CHAIN'].includes(name))                                              making = 0.13;
+    // else if (wt >= 40.0 && ['CHURI'].includes(name))                                              making = 0.10;
+    // else if (wt >= 30.0 && ['HAR','HARSET','LSET','HARST','CHOKER','LONGSET'].includes(name))     making = 0.13;
+    // else if (wt >= 30.0)                                                                           making = 0.12;
+    // else if (wt > 1.5 && wt < 3.0)                                                                making = 0.20;
+    // else                                                                                           making = 0.18;
 
   } else if (purity === '750') {
     rate = parseFloat(pureRate) * 0.755;
