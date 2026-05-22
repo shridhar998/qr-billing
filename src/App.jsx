@@ -11,6 +11,7 @@ const isIOS = () =>
 
 function App() {
   const [tab, setTab] = useState(0);
+  const [lastUpdate, setLastUpdate]= useState("20-01-2026");
   const [showQR, setShowQR] = useState(false);
   const [billItems, setBillItems] = useState([]);
   const [pureRate, setPureRate] = useState(10450);
@@ -35,7 +36,13 @@ function App() {
       setUsesCSSZoom(false);
       return;
     }
-
+    function formatDate(dateString) {
+       const date = new Date(dateString);
+       const day = String(date.getUTCDate()).padStart(2, "0");
+       const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+       const year = date.getUTCFullYear();
+       return `${day}-${month}-${year}`;
+    }
     const applyZoom = async () => {
       try {
         const videoEl = document.querySelector('video');
@@ -95,14 +102,16 @@ function App() {
   const fetchMetalRates = async () => {
     try {
       const url =
-        'https://api.metals.dev/v1/latest?api_key=WR7YI2TLB495N46WKLRA4536WKLRA&currency=INR&unit=g';
+        'https://api.metals.dev/v1/latest?api_key=QLOZSXK4X0ITJJC6AM5H818C6AM5H&currency=INR&unit=g';
       const response = await fetch(url, {
         headers: { Accept: 'application/json' },
       });
       const result = await response.json();
 
       if (result?.status === 'success' && result?.metals?.mcx_gold) {
-        const newRate = Number(result.metals.mcx_gold) * 1.03;
+        const newRate = Number(result.metals.mcx_gold);
+        const updateDate = result.timestamps.metal;
+        setLastUpdate(formatDate(updateDate))
         setPureRate(newRate);
         localStorage.setItem('pureRate', newRate);
         toast.success("Today's MCX gold rate updated");
@@ -188,10 +197,11 @@ function App() {
       </div>
 
       {/* Live Rate Display */}
-      <div className="fixed right-0 md:right-6 bottom-20 font-semibold text-sm md:text-base">
-        <div className="flex flex-col gap-3">
-          <div>Gold 916 rate : &#8377; {(pureRate * 0.9167).toFixed(2)}</div>
-          <div>Gold 750 rate : &#8377; {(pureRate * 0.755).toFixed(2)}</div>
+      <div className="fixed right-0 md:right-6 top-6 font-semibold text-sm md:text-base">
+        <div className="flex flex-col gap-3 text-sm">
+          <div>On {lastUpdate} </div>
+          <div>22k916 rate : &#8377; {(pureRate * 0.9167).toFixed(2)}</div>
+          <div>18k750 rate : &#8377; {(pureRate * 0.755).toFixed(2)}</div>
         </div>
       </div>
 
