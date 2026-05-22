@@ -111,6 +111,7 @@ function App() {
       if (result?.status === 'success' && result?.metals?.mcx_gold) {
         const newRate = Number(result.metals.mcx_gold);
         const updateDate = result.timestamps.metal;
+        console.log(updateDate);
         setLastUpdate(formatDate(updateDate))
         setPureRate(newRate);
         localStorage.setItem('pureRate', newRate);
