@@ -111,8 +111,12 @@ function App() {
       if (result?.status === 'success' && result?.metals?.mcx_gold) {
         const newRate = Number(result.metals.mcx_gold);
         const updateDate = result.timestamps.metal;
-        console.log(updateDate);
-        setLastUpdate(formatDate(updateDate))
+        // console.log(updateDate);
+       const date1 = new Date(updateDate);
+       const day1 = String(date1.getUTCDate()).padStart(2, "0");
+       const month1 = String(date1.getUTCMonth() + 1).padStart(2, "0");
+       const year1 = date1.getUTCFullYear();
+        setLastUpdate(`${day1}-${month1}-${year1}`)
         setPureRate(newRate);
         localStorage.setItem('pureRate', newRate);
         toast.success("Today's MCX gold rate updated");
