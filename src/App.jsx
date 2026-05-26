@@ -197,7 +197,7 @@ function App() {
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-white to-amber-400">
       {/* Logo */}
-      <div className="w-[12rem]">
+      <div className="w-[12rem] max-sm:-translate-x-[20vw]">
         <img src="/assets/logo_english_hd.PNG" alt="Logo" />
       </div>
 
