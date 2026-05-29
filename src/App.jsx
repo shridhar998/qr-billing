@@ -23,7 +23,9 @@ function App() {
 
   useEffect(() => {
     const localRate = localStorage.getItem('pureRate');
+    const localDate = localStorage.getItem('lastUpdate');
     if (localRate) setPureRate(Number(localRate));
+    if (localDate) setLastUpdate(localDate);
   }, []);
 
   // ── Zoom effect: hardware zoom on Android, CSS scale fallback on iOS ────────
@@ -116,10 +118,12 @@ function App() {
        const day1 = String(date1.getUTCDate()).padStart(2, "0");
        const month1 = String(date1.getUTCMonth() + 1).padStart(2, "0");
        const year1 = date1.getUTCFullYear();
-        setLastUpdate(`${day1}-${month1}-${year1}`)
+        const newDate = `${day1}-${month1}-${year1}`
+        setLastUpdate(newDate)
         setPureRate(newRate);
         localStorage.setItem('pureRate', newRate);
-        toast.success("Today's MCX gold rate updated");
+        localStorage.setItem('lastUpdate', newDate);
+        toast.success("Today's MCX gold rate and timing updated");
       } else {
         toast.error('Failed to fetch MCX gold rate');
       }
