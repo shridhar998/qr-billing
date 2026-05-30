@@ -122,7 +122,7 @@ export function calculateBill(data, pureRate) {
   let perPc  = false;
 
   if (purity === '916') {
-    rate = parseFloat(pureRate) * 0.9167;
+    rate = parseFloat(pureRate) * 0.9166;
     //making = 0.069;
     if      (wt >= 20.0 && ['CHAIN'].includes(name))                                              making = 0.13;
     else if (wt >= 40.0 && ['CHURI'].includes(name))                                              making = 0.10;
@@ -132,7 +132,7 @@ export function calculateBill(data, pureRate) {
     else                                                                                           making = 0.18;
 
   } else if (purity === '750') {
-    rate = parseFloat(pureRate) * 0.755;
+    rate = parseFloat(pureRate) * 0.75;
 
     if      (wt <= 0.5)  { perPc = true; making = 1500; }
     else if (wt <= 0.8)  { perPc = true; making = 2000; }
