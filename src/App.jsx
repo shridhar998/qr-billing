@@ -111,7 +111,7 @@ function App() {
       const result = await response.json();
 
       if (result?.status === 'success' && result?.metals?.mcx_gold) {
-        const newRate = Number(result.metals.mcx_gold);
+        const newRate = Number((result.metals.mcx_gold)*1.01);
         const updateDate = result.timestamps.metal;
         // console.log(updateDate);
        const date1 = new Date(updateDate);
@@ -209,8 +209,8 @@ function App() {
       <div className="fixed right-0 md:right-6 top-6 font-semibold text-sm md:text-base">
         <div className="flex flex-col gap-3 text-sm">
           <div>On {lastUpdate} </div>
-          <div>22k916 rate : &#8377; {(pureRate * 0.9167).toFixed(2)}</div>
-          <div>18k750 rate : &#8377; {(pureRate * 0.755).toFixed(2)}</div>
+          <div>22k916 rate : &#8377; {(pureRate * 0.9166).toFixed(2)}</div>
+          <div>18k750 rate : &#8377; {(pureRate * 0.75).toFixed(2)}</div>
         </div>
       </div>
 
