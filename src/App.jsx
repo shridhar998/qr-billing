@@ -110,7 +110,7 @@ function App() {
       });
       const result = await response.json();
 
-      if (result?.status === 'success' && result?.gold_24k) {  // result?.metals?.mcx_gold
+      if (result?.gold_24k) {  // result?.metals?.mcx_gold
         const newRate = Number(result.gold_24k);
         const updateDate = result.updated_at;  // result.timestamps.metal
         // console.log(updateDate);
