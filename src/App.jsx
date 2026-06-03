@@ -103,16 +103,16 @@ function App() {
 
   const fetchMetalRates = async () => {
     try {
-      const url =
-        'https://api.metals.dev/v1/latest?api_key=QLOZSXK4X0ITJJC6AM5H818C6AM5H&currency=INR&unit=g';
+      const url = 'https://project--8e6844e8-e4e8-47a6-bc64-a43cdca8b4d3-dev.lovable.app/api/public/rates'
+        // 'https://api.metals.dev/v1/latest?api_key=QLOZSXK4X0ITJJC6AM5H818C6AM5H&currency=INR&unit=g';
       const response = await fetch(url, {
         headers: { Accept: 'application/json' },
       });
       const result = await response.json();
 
-      if (result?.status === 'success' && result?.metals?.mcx_gold) {
-        const newRate = Number((result.metals.mcx_gold)*1.01);
-        const updateDate = result.timestamps.metal;
+      if (result?.status === 'success' && result?.gold_24k) {  // result?.metals?.mcx_gold
+        const newRate = Number(result.gold_24k);
+        const updateDate = result.updated_at;  // result.timestamps.metal
         // console.log(updateDate);
        const date1 = new Date(updateDate);
        const day1 = String(date1.getUTCDate()).padStart(2, "0");
