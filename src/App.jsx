@@ -132,12 +132,33 @@ function App() {
       toast.error('Error fetching MCX rate');
     }
   };
+  
+  function parseQR(text) {
+  // Normal case: comma separated
+  const parts = text.split(",");
+  if (parts.length >= 3) {
+    return parts;
+  }
 
+  // Handle missing commas
+  const match = text.match(/^(750|916),?(.+?)(\d+\.\d+)$/);
+
+  if (match) {
+    return [
+      match[1],              // purity
+      match[2].replace(/,$/, "").trim(), // item name
+      match[3],              // weight
+    ];
+  }
+
+  return null;
+}
   const makeResultHandler = (sessionId) => (result, error) => {
     if (sessionId !== activeScanSession.current) return;
 
     if (result?.text) {
-      const parsed = result.text.split(',');
+      // const parsed = result.text.split(','); //earlier only csv now regex as well
+      const parsed = parseQR(result.text);
       if (parsed.length >= 3) {
         activeScanSession.current = -1;
         setBillItems((prev) => [...prev, parsed]);
